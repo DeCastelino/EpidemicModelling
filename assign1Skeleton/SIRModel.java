@@ -31,8 +31,8 @@ public class SIRModel
     {
     	Random random = new Random ();
     	
-    	List <String> newlyInfected = new List <String> ();
-    	List <String> newlyRecovered = new List <String> ();
+    	List <String> newlyInfected;
+    	List <String> newlyRecovered;
     	
         // TODO IMPLEMENT ME!
     	for (String vertex : seedVertices)
@@ -48,13 +48,21 @@ public class SIRModel
     		
     		String [] currentlyInfected 
     			= graph.allVerticesWithState (SIRState.I);
+    		newlyInfected = new List <String> ();
+        	newlyRecovered = new List <String> ();
     		
     		// Infect some vertices
     		for (String vertex : currentlyInfected)
     		{
-    			if (random.nextFloat() < infectionProb)
+    			String [] neighbours = graph.kHopNeighbours(1, vertex);
+    			for (String neighbour : neighbours)
     			{
-    				newlyInfected.add (vertex);
+	    			if (random.nextFloat() < infectionProb 
+	    					&& graph.getVertexState(neighbour) == SIRState.S)
+	    			{
+	    				newlyInfected.removeAll(neighbour);
+	    				newlyInfected.add (neighbour);
+	    			}
     			}
     		}
     		

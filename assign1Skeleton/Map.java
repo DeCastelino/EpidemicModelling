@@ -86,7 +86,15 @@ public class Map <K, V>
 	
 	public V getValue (int index)
 	{
-		return vec.get (index).value;
+		Pair pair = vec.get (index);
+		if (pair == null)
+		{
+			return null;
+		}
+		else
+		{
+			return pair.value;
+		}
 	}
 
 	public int size() {

@@ -29,7 +29,8 @@ public class List <T> implements Iterable <T> {
 		
 		@Override
 		public boolean hasNext() {
-			return i < list.size ();
+			//return i < list.size ();
+			return node != null;
 		}
 
 		@Override
@@ -103,11 +104,11 @@ public class List <T> implements Iterable <T> {
 	
 	void removeAll (T value)
 	{
-		if (size > 0 && root.value.equals(value))
+		while (size > 0 && root.value.equals(value))
 		{
 			remove (0);
 		}
-		else if (root != null)
+		if (root != null)
 		{
 			for (Node node = root; node.nextNode != null;)
 			{

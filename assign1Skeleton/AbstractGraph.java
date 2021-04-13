@@ -66,6 +66,12 @@ public abstract class AbstractGraph implements ContactsGraph
 		
 		return returnArr;
 	}
+	
+	@Override
+	public SIRState getVertexState (String vertex)
+	{
+		return vertices.get(vertex);
+	}
 
 	
 } // end of abstract class AbstractGraph

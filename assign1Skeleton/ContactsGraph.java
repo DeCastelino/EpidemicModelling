@@ -41,6 +41,8 @@ public interface ContactsGraph
 	public abstract void recoverVertex (String vertLabel);
 	
 	public abstract String [] allVerticesWithState (SIRState state);
+	
+	public abstract SIRState getVertexState (String vertex);
 
 
 	/**

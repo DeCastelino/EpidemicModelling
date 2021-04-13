@@ -79,10 +79,11 @@ public class IncidenceMatrix extends AbstractGraph
         {
      	   if (adj [i][vertex])
      	   {
-     		   for (int j = 0; j < adj [j].length; j++)
+     		   for (int j = 0; j < adj [i].length; j++)
      		   {
      			   adj [i][j] = false;
      		   }
+     		   slotFull [i] = false;
      	   }
         }
     }
@@ -105,12 +106,12 @@ public class IncidenceMatrix extends AbstractGraph
         {
         	if (adj [i][vertex])
         	{
-        		for (int j = 0; j < adj.length; j++)
+        		for (int j = 0; j < vertices.size(); j++)
         			{
         				if (adj [i][j])
         					{
-        						isNeighbour [i] = true;
-        						kHopNeighbours(isNeighbour, k - 1, i);
+        						isNeighbour [j] = true;
+        						kHopNeighbours(isNeighbour, k - 1, j);
         					}
         			}
         		
@@ -119,7 +120,7 @@ public class IncidenceMatrix extends AbstractGraph
     } // end of kHopNeighbours()
 
     public String[] kHopNeighbours(int k, String vertLabel) {
-    	boolean [] isNeighbour = new boolean [adj.length];
+    	boolean [] isNeighbour = new boolean [vertices.size()];
         int vertIndex = vertices.getIndex(vertLabel);
         kHopNeighbours(isNeighbour, k, vertIndex);
 
@@ -142,12 +143,28 @@ public class IncidenceMatrix extends AbstractGraph
 
 
     public void printVertices(PrintWriter os) {
-        // Implement me!
+        super.printVertices(os);
     } // end of printVertices()
 
 
     public void printEdges(PrintWriter os) {
-        // Implement me!
+        for (boolean [] row : adj)
+        {
+        	boolean line = false;
+        	for (int vertex = 0; vertex < row.length; vertex ++)
+        	{
+   
+        		if (row [vertex])
+        		{
+        			os.print (vertices.getKey (vertex) + " ");
+        			line = true;
+        		}
+        	}
+        	if (line)
+        	{
+        		os.println ();
+        	}
+        }
     } // end of printEdges()
 
 } // end of class IncidenceMatrix

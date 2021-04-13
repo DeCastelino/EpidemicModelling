@@ -33,7 +33,6 @@ public class AdjacencyList extends AbstractGraph
         int tar = vertices.getIndex (tarLabel);
         
         addEdge(src, tar);
-        addEdge(tar, src);
     } // end of addEdge()
     
     public void addEdge (int src, int tar)
@@ -110,14 +109,10 @@ public class AdjacencyList extends AbstractGraph
         }
     	
 		List <Integer> neighbours = adj.get(vertIndex);
-		Iterator <Integer> it = neighbours.iterator();
-		if (it.hasNext())
+		for (int neighbour : neighbours)
 		{
-			for (int neighbour = it.next(); it.hasNext(); neighbour = it.next ())
-			{
-				isNeighbour [neighbour] = true;
-				kHopNeighbours(isNeighbour, k - 1, neighbour);
-			}
+			isNeighbour [neighbour] = true;
+			kHopNeighbours(isNeighbour, k - 1, neighbour);
 		}
 	}
 
