@@ -41,6 +41,7 @@ public class SIRModel
     	}
     	
     	int iterationNo = 0;
+    	int lastIterationWithChanges = 0;
     	
     	do
     	{
@@ -93,7 +94,16 @@ public class SIRModel
     		 + "[" + infectedString + "] : "
     		 + "[" + recoveredString + "]";
     		out.println (output);
+    		
+    		if (newlyInfected.size () > 0 || newlyRecovered.size () > 0)
+    		{
+    			lastIterationWithChanges = iterationNo;
+    		}
+    		else if (currentlyInfected.length == 0)
+    		{
+    			lastIterationWithChanges = -100;
+    		}
     	}
-    	while (newlyInfected.size () > 0 || newlyRecovered.size () > 0);
+    	while (iterationNo - lastIterationWithChanges < 10);
     } // end of runSimulation()
 } // end of class SIRModel

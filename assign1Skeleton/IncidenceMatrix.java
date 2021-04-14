@@ -150,19 +150,27 @@ public class IncidenceMatrix extends AbstractGraph
     public void printEdges(PrintWriter os) {
         for (boolean [] row : adj)
         {
-        	boolean line = false;
+        	String a = null;
+        	String b = null;
         	for (int vertex = 0; vertex < row.length; vertex ++)
         	{
    
         		if (row [vertex])
         		{
-        			os.print (vertices.getKey (vertex) + " ");
-        			line = true;
+        			if (a == null)
+        			{
+        				a = vertices.getKey(vertex);
+        			}
+        			else
+        			{
+        				b = vertices.getKey(vertex);
+        			}
         		}
         	}
-        	if (line)
+        	if (a != null)
         	{
-        		os.println ();
+        		os.println (a + " " + b);
+        		os.println (b + " " + a);
         	}
         }
     } // end of printEdges()
