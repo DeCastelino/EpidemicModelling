@@ -262,41 +262,7 @@ public class RmitCovidModelling
 		if (inputFilename != null) {
 
 			try {
-				BufferedReader reader = new BufferedReader(new FileReader(inputFilename));
-
-		    	String line;
-		    	String delimiterRegex = "[ \t]+";
-		    	String[] tokens;
-		    	String srcLabel, tarLabel;
-
-				// read in initial vertex line *Vertex XXX (XXX is number of vertices)
-				int vertNum = -1;
-				if ((line = reader.readLine()) != null) {
-					tokens = line.trim().split(delimiterRegex);
-					vertNum = Integer.parseInt(tokens[1]);
-				}
-
-				boolean bVertexPhrase = true;
-		    	while ((line = reader.readLine()) != null) {
-					// check if switch to edge phrase, which means line is *Edges
-					if (line.compareTo("*Edges") == 0) {
-						bVertexPhrase = false;
-						continue;
-					}
-					// read in vertices
-					if (bVertexPhrase) {
-			    		tokens = line.trim().split(delimiterRegex);
-						graph.addVertex(tokens[0]);
-					}
-					// otherwise in edge reading phrase
-					else {
-						tokens = line.trim().split(delimiterRegex);
-						srcLabel = tokens[0];
-			    		tarLabel = tokens[1];
-						// add edge
-						graph.addEdge(srcLabel, tarLabel);
-					}
-		    	}
+				loadGraph(inputFilename, graph);
 			}
 			catch (FileNotFoundException ex) {
 				printErrorMsg("File " + args[1] + " not found.");
@@ -323,5 +289,44 @@ public class RmitCovidModelling
 		}
 
 	} // end of main()
+
+
+	private static void loadGraph(String inputFilename, ContactsGraph graph) throws FileNotFoundException, IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(inputFilename));
+
+		String line;
+		String delimiterRegex = "[ \t]+";
+		String[] tokens;
+		String srcLabel, tarLabel;
+
+		// read in initial vertex line *Vertex XXX (XXX is number of vertices)
+		int vertNum = -1;
+		if ((line = reader.readLine()) != null) {
+			tokens = line.trim().split(delimiterRegex);
+			vertNum = Integer.parseInt(tokens[1]);
+		}
+
+		boolean bVertexPhrase = true;
+		while ((line = reader.readLine()) != null) {
+			// check if switch to edge phrase, which means line is *Edges
+			if (line.compareTo("*Edges") == 0) {
+				bVertexPhrase = false;
+				continue;
+			}
+			// read in vertices
+			if (bVertexPhrase) {
+				tokens = line.trim().split(delimiterRegex);
+				graph.addVertex(tokens[0]);
+			}
+			// otherwise in edge reading phrase
+			else {
+				tokens = line.trim().split(delimiterRegex);
+				srcLabel = tokens[0];
+				tarLabel = tokens[1];
+				// add edge
+				graph.addEdge(srcLabel, tarLabel);
+			}
+		}
+	}
 
 } // end of class RmitCovidModelling
