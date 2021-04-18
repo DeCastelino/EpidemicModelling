@@ -10,9 +10,10 @@ import java.io.PrintWriter;
 public class IncidenceMatrix extends AbstractGraph
 {
 
-	private static final int MATRIX_SIZE = 10_000; //Arbitrary value
-	private boolean [][] adj = new boolean [MATRIX_SIZE][MATRIX_SIZE];
-	private boolean [] slotFull = new boolean [MATRIX_SIZE];
+	private static final int MAX_VERTICES = 10_000; //Arbitrary value
+	private static final int MAX_EDGES = 100_000;
+	private boolean [][] adj = new boolean [MAX_EDGES][MAX_VERTICES];
+	private boolean [] slotFull = new boolean [MAX_EDGES];
 	
 	/**
 	 * Contructs empty graph.
