@@ -1,7 +1,6 @@
 import java.io.PrintStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -220,6 +219,8 @@ public class RmitCovidModelling
 		// parse command line options
 		OptionParser parser = new OptionParser("f:o:");
 		OptionSet options = parser.parse(args);
+		
+		
 
 		String inputFilename = null;
 		String outFilename = null;
@@ -301,7 +302,6 @@ public class RmitCovidModelling
 		} catch (IOException e) {
 			printErrorMsg(e.getMessage());
 		}
-
 	} // end of main()
 
 

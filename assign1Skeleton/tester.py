@@ -2,14 +2,15 @@ import sys
 import time
 import os
 
-CMD = "java -cp bin:bin/jopt-simple-5.0.2.jar RmitCovidModelling"
+CMD = "java -cp .:/jopt-simple-5.0.2.jar RmitCovidModelling"
 
 testfile = open (sys.argv [1], "r")
 outfile = open (sys.argv [2], "w")
 
 graphs = []
 testCases = []
-implementations = ["adjlist", "adjmat", "incmat"]
+#implementations = ["adjlist", "adjmat", "incmat"]
+implementations = ["adjlist"]
 
 line = testfile.readline ()
 while (line != "\n"):
@@ -28,7 +29,7 @@ for impl in implementations:
         for test in testCases:
             totalTime = 0
             for i in range (3):
-                cmd = CMD + " -f graphs/" + graph.strip () + str (i + 1) + ".net " + impl + "<testCases/" + test.strip ()
+                cmd = CMD + " -f Graphs/random/" + graph.strip () + str (i + 1) + ".net " + " < testCases/" + test.strip() + " " + impl
                 startTime = time.time ()
                 os.system (cmd)
                 finishTime = time.time ()
