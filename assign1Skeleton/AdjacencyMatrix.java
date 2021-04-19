@@ -22,11 +22,19 @@ public class AdjacencyMatrix extends AbstractGraph
 
     public void setEdge (String srcLabel, String tarLabel, boolean isEdge)
     {
-    	int a = vertices.getIndex(srcLabel);
-        int b = vertices.getIndex(tarLabel);
-        
-        adj [a][b] = isEdge;
-        adj [b][a] = isEdge;
+    try {
+			int a = vertices.getIndex(srcLabel);
+			int b = vertices.getIndex(tarLabel);
+			
+			if (a == -1 || b == -1)
+				throw new NullPointerException();
+			
+			adj [a][b] = isEdge;
+			adj [b][a] = isEdge;
+		} catch (NullPointerException ex) {
+			System.err.println ("Those vertices don't exist");
+			return;
+		}
     }
     public void addEdge(String srcLabel, String tarLabel) {
         setEdge (srcLabel, tarLabel, true);
@@ -39,15 +47,23 @@ public class AdjacencyMatrix extends AbstractGraph
 
 
     public void deleteVertex(String vertLabel) {
-        int vertex = vertices.getIndex (vertLabel);
-        
-        for (int i = 0; i < adj.length; i++)
-        {
-        	adj [i][vertex] = false;
-        	adj [vertex][i] = false;
-        }
-        
-        super.deleteVertex(vertLabel);
+        try {
+			int vertex = vertices.getIndex (vertLabel);
+			
+			if (vertex == -1)
+				throw new NullPointerException();
+			
+			for (int i = 0; i < adj.length; i++)
+			{
+				adj [i][vertex] = false;
+				adj [vertex][i] = false;
+			}
+			
+			super.deleteVertex(vertLabel);
+		} catch (NullPointerException ex) {
+			System.err.println ("That vertex doesn't exist");
+			return;
+		}
     } // end of deleteVertex()
 
     

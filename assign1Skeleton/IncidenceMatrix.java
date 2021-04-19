@@ -42,10 +42,18 @@ public class IncidenceMatrix extends AbstractGraph
 
     public void addEdge(String srcLabel, String tarLabel) {
     	
-    	int src = vertices.getIndex(srcLabel);
-    	int tar = vertices.getIndex(tarLabel);
-    	
-    	addEdge(src, tar);
+    	try {
+			int src = vertices.getIndex(srcLabel);
+			int tar = vertices.getIndex(tarLabel);
+			
+			if (src == -1 || tar == -1)
+				throw new NullPointerException();
+			
+			addEdge(src, tar);
+		} catch (NullPointerException ex) {
+			System.err.println ("Those vertices don't exist");
+			return;
+		}
     	
     } // end of addEdge()
 
@@ -68,10 +76,19 @@ public class IncidenceMatrix extends AbstractGraph
     }
 
     public void deleteEdge(String srcLabel, String tarLabel) {
-        int src = vertices.getIndex(srcLabel);
-        int tar = vertices.getIndex(tarLabel);
-        
-        deleteEdge(src, tar);
+        try {
+			int src = vertices.getIndex(srcLabel);
+			int tar = vertices.getIndex(tarLabel);
+			
+			if (src == -1 || tar == -1)
+				throw new NullPointerException();
+			
+			deleteEdge(src, tar);
+		} catch (NullPointerException ex) {
+			// TODO Auto-generated catch block
+			System.err.println ("Those vertices don't exist");
+			return;
+		}
     } // end of deleteEdge()
 
     public void deleteVertex (int vertex)
@@ -90,10 +107,18 @@ public class IncidenceMatrix extends AbstractGraph
     }
     
     public void deleteVertex(String vertLabel) {
-       int vertex = vertices.getIndex(vertLabel);
-       
-       deleteVertex(vertex);
-       super.deleteVertex(vertLabel);
+       try {
+		int vertex = vertices.getIndex(vertLabel);
+		   
+		if (vertex == -1)
+			throw new NullPointerException();
+		
+		   deleteVertex(vertex);
+		   super.deleteVertex(vertLabel);
+	} catch (NullPointerException ex) {
+		System.err.println ("That vertex doesn't exist");
+		return;
+	}
     } // end of deleteVertex()
 
     

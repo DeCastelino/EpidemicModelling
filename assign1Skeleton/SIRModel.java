@@ -106,4 +106,89 @@ public class SIRModel
     	}
     	while (iterationNo - lastIterationWithChanges < 10);
     } // end of runSimulation()
+
+
+	public void runCsvSimulation(ContactsGraph graph, String[] seedVertices, float infectionProb, float recoverProb,
+			PrintWriter out) {
+Random random = new Random ();
+    	
+    	List <String> newlyInfected;
+    	List <String> newlyRecovered;
+    	
+        // TODO IMPLEMENT ME!
+    	for (String vertex : seedVertices)
+    	{
+    		graph.infectVertex(vertex);
+    	}
+    	
+    	int iterationNo = 0;
+    	int lastIterationWithChanges = 0;
+    	
+    	do
+    	{
+    		iterationNo ++;
+    		
+    		String [] currentlyInfected 
+    			= graph.allVerticesWithState (SIRState.I);
+    		newlyInfected = new List <String> ();
+        	newlyRecovered = new List <String> ();
+    		
+    		// Infect some vertices
+    		for (String vertex : currentlyInfected)
+    		{
+    			String [] neighbours = graph.kHopNeighbours(1, vertex);
+    			for (String neighbour : neighbours)
+    			{
+	    			if (random.nextFloat() < infectionProb 
+	    					&& graph.getVertexState(neighbour) == SIRState.S)
+	    			{
+	    				newlyInfected.removeAll(neighbour);
+	    				newlyInfected.add (neighbour);
+	    			}
+    			}
+    		}
+    		
+    		// Recover some vertices
+    		for (String vertex : currentlyInfected)
+    		{
+    			if (random.nextFloat () < recoverProb)
+    			{
+    				newlyRecovered.add (vertex);
+    			}
+    		}
+    		
+    		// Commit changes
+    		for (String vertex : newlyInfected)
+    		{
+    			graph.infectVertex (vertex);
+    		}
+    		for (String vertex : newlyRecovered)
+    		{
+    			graph.recoverVertex (vertex);
+    		}
+    		
+    		// Print results
+    		int numSusceptible = graph.allVerticesWithState (SIRState.S).length;
+    		int numInfected = graph.allVerticesWithState(SIRState.I).length;
+    		int numRecovered = graph.allVerticesWithState(SIRState.R).length;
+    		
+    		String output
+    		 = iterationNo + "," 
+    		 + numSusceptible + "," 
+    		 + numInfected + "," 
+    		 + numRecovered;
+    		out.println (output);
+    		
+    		if (newlyInfected.size () > 0 || newlyRecovered.size () > 0)
+    		{
+    			lastIterationWithChanges = iterationNo;
+    		}
+    		else if (currentlyInfected.length == 0)
+    		{
+    			lastIterationWithChanges = -100;
+    		}
+    	}
+    	while (iterationNo - lastIterationWithChanges < 10);
+		
+	}
 } // end of class SIRModel

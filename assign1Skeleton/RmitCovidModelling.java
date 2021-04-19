@@ -171,8 +171,22 @@ public class RmitCovidModelling
 							String[] seedVertices = tokens[1].split(";");
 							float infectionProb = Float.parseFloat(tokens[2]);
 							float recoverProb = Float.parseFloat(tokens[3]);
-
+ 
 							sirModel.runSimulation(graph, seedVertices, infectionProb, recoverProb, outWriter);
+						}
+						else {
+							printErrorMsg("incorrect number of tokens.");
+						}
+
+						break;
+					case "SRM":
+						outWriter.println("# " + line);
+						if (tokens.length == 4) {
+							String[] seedVertices = tokens[1].split(";");
+							float infectionProb = Float.parseFloat(tokens[2]);
+							float recoverProb = Float.parseFloat(tokens[3]);
+
+							sirModel.runCsvSimulation(graph, seedVertices, infectionProb, recoverProb, outWriter);
 						}
 						else {
 							printErrorMsg("incorrect number of tokens.");

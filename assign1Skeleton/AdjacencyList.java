@@ -29,10 +29,22 @@ public class AdjacencyList extends AbstractGraph
     }
 
     public void addEdge(String srcLabel, String tarLabel) {
-        int src = vertices.getIndex (srcLabel);
-        int tar = vertices.getIndex (tarLabel);
+        try
+        {
+        	int src = vertices.getIndex (srcLabel);
+        	int tar = vertices.getIndex (tarLabel);
         
-        addEdge(src, tar);
+        	if (src == -1 || tar == -1)
+				throw new NullPointerException();
+        	
+        	addEdge(src, tar);
+        }
+        catch (NullPointerException ex)
+        {
+        	System.err.println ("Those vertices don't exist");
+        	return;
+        }
+        
     } // end of addEdge()
     
     public void addEdge (int src, int tar)
@@ -43,11 +55,22 @@ public class AdjacencyList extends AbstractGraph
 
 
     public void deleteEdge(String srcLabel, String tarLabel) {
-    	int src = vertices.getIndex (srcLabel);
-        int tar = vertices.getIndex (tarLabel);
-        
-        deleteEdge (src, tar);
-        deleteEdge (tar, src);
+    	try
+    	{
+    		int src = vertices.getIndex (srcLabel);
+    		int tar = vertices.getIndex (tarLabel);
+    		
+    		if (src == -1 || tar == -1)
+				throw new NullPointerException();
+    		
+    		deleteEdge (src, tar);
+            deleteEdge (tar, src);
+    	}
+        catch (NullPointerException ex)
+    	{
+        	System.err.println ("Those vertices don't exist");
+        	return;
+    	} 
     } // end of deleteEdge()
     
     public void deleteEdge (int src, int tar)
@@ -71,11 +94,19 @@ public class AdjacencyList extends AbstractGraph
     }
     
     public void deleteVertex(String vertLabel) {
-        int vertex = vertices.getIndex(vertLabel);
-        
-        deleteVertex(vertex);
-        
-        super.deleteVertex(vertLabel);
+        try {
+			int vertex = vertices.getIndex(vertLabel);
+			
+			if (vertex == -1)
+				throw new NullPointerException();
+			
+			deleteVertex(vertex);
+			
+			super.deleteVertex(vertLabel);
+		} catch (NullPointerException ex) {
+			System.err.println ("That vertex doesn't exist");
+			return;
+		}
     } // end of deleteVertex()
 
 
